@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "target": "es5", // コンパイル後のJavaScriptのバージョンの指定
+        "rootDir": "./src", // TypeScriptのソースコードがあるディレクトリの指定
+        "module": "commonjs", // コンパイル後のモジュールパターンの指定
+        "strict": true, // any型を禁止にする等、コンパイル時に厳格なチェックを行う
+        "esModuleInterop": true, // CommonJS形式のモジュールを扱えるようにする
+    }
+}
