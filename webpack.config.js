@@ -9,7 +9,7 @@ module.exports = {
     // モジュールバンドルを行うファイルの指定
     // entry内のプロパティ名がアウトプットファイル名になる（今回の場合main.jsとなる）
     entry: {
-        main: './src/ts/index.ts',
+        main: './src/ts/client.ts',
     },
     // ちなみにwebpackは標準でmain.jsというファイル名でアウトプットを行うため、以下のように書き換えることも可能
     // entry: './src/ts/index.ts',
