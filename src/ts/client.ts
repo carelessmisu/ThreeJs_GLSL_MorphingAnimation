@@ -16,7 +16,7 @@ class Stage {
     public isInitialized: boolean;
     constructor() {
         this.renderParam = {
-            clearColor: 0x000000,
+            clearColor: 0X000000,
             width: window.innerWidth,
             height: window.innerHeight
         };
@@ -120,7 +120,7 @@ class Mesh {
     public mesh: THREE.Points<THREE.BufferGeometry, THREE.RawShaderMaterial>;
     public group: THREE.Group;
     constructor(stage: Stage) {
-        this.rotationPower = 0.01;
+        this.rotationPower = 0.008;
         this.stage = stage;
         this.mesh = new THREE.Points;
         this.group = new THREE.Group;
