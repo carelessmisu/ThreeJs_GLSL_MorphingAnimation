@@ -209,7 +209,7 @@ class Mesh {
 
         const objLoader4 = new OBJLoader();
         objLoader4.load(
-            'models/face_4.obj',
+            'models/skull_4.obj',
             (object) => {
                 object.position.set(0, 0, 0);
                 const objgeometry3 = (object.children[0] as THREE.Mesh).geometry;
