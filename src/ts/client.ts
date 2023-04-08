@@ -1,10 +1,13 @@
 import * as THREE from "three";
 import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler";
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import vertexShader from "../glsl/vertexShader.glsl";
 import fragmentShader from "../glsl/fragmentShader.glsl";
 import '../sass/style.scss';
+import { BufferGeometry } from "three";
 
 
 class Stage {
@@ -14,6 +17,7 @@ class Stage {
     public camera: THREE.PerspectiveCamera;
     public renderer: THREE.WebGLRenderer;
     public isInitialized: boolean;
+    // public orbitcontrols: OrbitControls;
     constructor() {
         this.renderParam = {
             clearColor: 0X000000,
@@ -43,7 +47,11 @@ class Stage {
         );
         this.renderer = new THREE.WebGLRenderer();
         this.isInitialized = false;
-        // this.orbitcontrols = null;
+        // this.orbitcontrols = new OrbitControls(
+        //     this.camera,
+        //     this.renderer.domElement
+        // );
+
     }
 
     init() {
@@ -70,12 +78,12 @@ class Stage {
 
     _setCamera = () => {
         if (!this.isInitialized) {
-            // this.camera = new THREE.PerspectiveCamera(
-            //     0,
-            //     0,
-            //     this.cameraParam.near,
-            //     this.cameraParam.far
-            // );
+            this.camera = new THREE.PerspectiveCamera(
+                0,
+                0,
+                this.cameraParam.near,
+                this.cameraParam.far
+            );
 
             this.camera.position.set(
                 this.cameraParam.x,
@@ -83,8 +91,7 @@ class Stage {
                 this.cameraParam.z
             );
             this.camera.lookAt(this.cameraParam.lookAt);
-
-            // this.orbitcontrols = new THREE.OrbitControls(
+            // this.orbitcontrols = new OrbitControls(
             //     this.camera,
             //     this.renderer.domElement
             // );
@@ -131,7 +138,7 @@ class Mesh {
         this._setScroll();
     }
 
-    _getGeometryPosition(geometry: any) {
+    _getGeometryPosition(geometry: THREE.BufferGeometry) {
         const numParticles = 10000;
         const material = new THREE.MeshBasicMaterial();
         const mesh = new THREE.Mesh(geometry, material);
@@ -149,17 +156,87 @@ class Mesh {
     }
 
     _setMesh() {
+        const objLoader1 = new OBJLoader();
+        objLoader1.load(
+            'models/face_1.obj',
+            (object) => {
+                object.position.set(0, 0, 0);
+                const objgeometry = (object.children[0] as THREE.Mesh).geometry;
+                const firstPos = this._getGeometryPosition(objgeometry.toNonIndexed());
+                geometry.setAttribute("position", new THREE.BufferAttribute(firstPos, 3));
+            },
+            (xhr) => {
+                console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+            },
+            (error) => {
+                console.log(error)
+            }
+        );
+
+        const objLoader2 = new OBJLoader();
+        objLoader2.load(
+            'models/face_2.obj',
+            (object) => {
+                object.position.set(0, 0, 0);
+                const objgeometry1 = (object.children[0] as THREE.Mesh).geometry;
+                const secPos = this._getGeometryPosition(objgeometry1.toNonIndexed());
+                geometry.setAttribute("secPosition", new THREE.BufferAttribute(secPos, 3));
+            },
+            (xhr) => {
+                console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+            },
+            (error) => {
+                console.log(error)
+            }
+        );
+
+        const objLoader3 = new OBJLoader();
+        objLoader3.load(
+            'models/face_3.obj',
+            (object) => {
+                object.position.set(0, 0, 0);
+                const objgeometry2 = (object.children[0] as THREE.Mesh).geometry;
+                const thirdPos = this._getGeometryPosition(objgeometry2.toNonIndexed());
+                geometry.setAttribute("thirdPosition", new THREE.BufferAttribute(thirdPos, 3));
+            },
+            (xhr) => {
+                console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+            },
+            (error) => {
+                console.log(error)
+            }
+        );
+
+        const objLoader4 = new OBJLoader();
+        objLoader4.load(
+            'models/face_4.obj',
+            (object) => {
+                object.position.set(0, 0, 0);
+                const objgeometry3 = (object.children[0] as THREE.Mesh).geometry;
+                const forthPos = this._getGeometryPosition(objgeometry3.toNonIndexed());
+                geometry.setAttribute("forthPosition", new THREE.BufferAttribute(forthPos, 3));
+            },
+            (xhr) => {
+                console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+            },
+            (error) => {
+                console.log(error)
+            }
+        );
+
+
+        
         const geometry = new THREE.BufferGeometry();
-        const firstPos = this._getGeometryPosition(new THREE.SphereGeometry(1, 32, 32).toNonIndexed());
-        const secPos = this._getGeometryPosition(new THREE.TorusGeometry(0.7, 0.3, 32, 32).toNonIndexed());
-        const thirdPos = this._getGeometryPosition(new THREE.TorusKnotGeometry(0.6, 0.25, 300, 20, 6, 10).toNonIndexed());
-        const forthPos = this._getGeometryPosition(new THREE.CylinderGeometry(1, 1, 1, 32, 32).toNonIndexed());
-        const fivePos = this._getGeometryPosition(new THREE.IcosahedronGeometry(1.1, 0).toNonIndexed());
+        // const firstPos = this._getGeometryPosition(new THREE.SphereGeometry(1, 32, 32).toNonIndexed());
+        // const secPos = this._getGeometryPosition(new THREE.TorusGeometry(0.7, 0.3, 32, 32).toNonIndexed());
+        // const thirdPos = this._getGeometryPosition(new THREE.OctahedronGeometry(1, 0).toNonIndexed());
+        // const forthPos = this._getGeometryPosition(new THREE.CylinderGeometry(1, 1, 1, 32, 32).toNonIndexed());
+        // const fivePos = this._getGeometryPosition(new THREE.IcosahedronGeometry(1.1, 0).toNonIndexed());
         const uniforms = {
             u_sec1: { value: 0.0 },
             u_sec2: { value: 0.0 },
             u_sec3: { value: 0.0 },
-            u_sec4: { value: 0.0 }
+            u_sec4: { value: 0.0 },
         };
         const material = new THREE.RawShaderMaterial({
             vertexShader: vertexShader,
@@ -169,13 +246,14 @@ class Mesh {
             blending: THREE.AdditiveBlending,
         });
 
-        geometry.setAttribute("position", new THREE.BufferAttribute(firstPos, 3));
-        geometry.setAttribute("secPosition", new THREE.BufferAttribute(secPos, 3));
-        geometry.setAttribute("thirdPosition", new THREE.BufferAttribute(thirdPos, 3));
-        geometry.setAttribute("forthPosition", new THREE.BufferAttribute(forthPos, 3));
-        geometry.setAttribute("fivePosition", new THREE.BufferAttribute(fivePos, 3));
+        // geometry.setAttribute("position", new THREE.BufferAttribute(firstPos, 3));
+        // geometry.setAttribute("secPosition", new THREE.BufferAttribute(secPos, 3));
+        // geometry.setAttribute("thirdPosition", new THREE.BufferAttribute(thirdPos, 3));
+        // geometry.setAttribute("forthPosition", new THREE.BufferAttribute(forthPos, 3));
+        // geometry.setAttribute("fivePosition", new THREE.BufferAttribute(fivePos, 3));
 
         this.mesh = new THREE.Points(geometry, material);
+
 
         this.group = new THREE.Group();
         this.group.add(this.mesh);
@@ -195,9 +273,9 @@ class Mesh {
             }
         })
             .to(this.mesh.rotation, {
-                x: Math.PI * 2,
+                // x: Math.PI * 2,
                 y: Math.PI * 2,
-                z: Math.PI * 2
+                // z: Math.PI * 2
             });
 
         gsap.to(this.mesh.material.uniforms.u_sec1, {
@@ -227,19 +305,10 @@ class Mesh {
                 scrub: 0.7
             }
         });
-        gsap.to(this.mesh.material.uniforms.u_sec4, {
-            value: 1.0,
-            scrollTrigger: {
-                trigger: ".s-4",
-                start: "bottom bottom",
-                end: "bottom top",
-                scrub: 0.7
-            }
-        });
     }
 
     _render() {
-        this.group.rotation.x += this.rotationPower;
+        // this.group.rotation.x += this.rotationPower;
         this.group.rotation.y += this.rotationPower;
     }
 
