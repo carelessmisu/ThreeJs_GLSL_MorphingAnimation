@@ -146,7 +146,7 @@ class Mesh {
   }
 
   _getGeometryPosition(geometry: THREE.BufferGeometry) {
-    const numParticles = 10000;
+    const numParticles = 25000;
     const material = new THREE.MeshBasicMaterial();
     const mesh = new THREE.Mesh(geometry, material);
     const sampler = new MeshSurfaceSampler(mesh).build();
@@ -294,7 +294,7 @@ class Mesh {
       })
       .to(this.mesh.rotation, {
         // x: Math.PI * 2,
-        y: Math.PI * 4,
+        y: Math.PI * 2,
         // z: Math.PI * 2
       });
 
